@@ -1,11 +1,14 @@
-from bs4 import BeautifulSoup
+from src.modules.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 def extract_data(soup):
-
     product_list = []
 
     # Extract all the products on the page
     products = soup.find_all('article', class_='product_pod')
+    logger.debug("Extracting products", extra={"products_found": len(products)})
 
     for product in products:
         # Extract the product name
@@ -33,4 +36,5 @@ def extract_data(soup):
             'rating': rating_dict[rating]
         })
 
+    logger.debug("Extraction finished", extra={"products_extracted": len(product_list)})
     return product_list
